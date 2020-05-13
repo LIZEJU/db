@@ -1,0 +1,6 @@
+django.db.utils.InternalError: (1698, "Access denied for user 'root'@'localhost'")
+
+
+这个是因为认证失败，且是普通用户使用正确的密码登录，也是失败的。
+需要使用sql语句，对用户重新进行加密，还有改变用户的加密策略。
+
