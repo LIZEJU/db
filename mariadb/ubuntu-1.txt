@@ -4,3 +4,30 @@ django.db.utils.InternalError: (1698, "Access denied for user 'root'@'localhost'
 这个是因为认证失败，且是普通用户使用正确的密码登录，也是失败的。
 需要使用sql语句，对用户重新进行加密，还有改变用户的加密策略。
 
+MariaDB [(none)]> select user , plugin from mysql.user;                     
++------+-------------+
+| user | plugin      |
++------+-------------+
+| root | unix_socket |
+| root |             |
++------+-------------+
+2 rows in set (0.00 sec)
+
+MariaDB [(none)]> update mysql.user set authentication_string=PASSWORD("1234"), plugin="mysql_native_password" where user="root";                       
+Query OK, 2 rows affected (0.00 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+MariaDB [(none)]> select user , plugin from mysql.user;
++------+-----------------------+                                            
+| user | plugin                |
++------+-----------------------+
+| root | mysql_native_password |
+| root | mysql_native_password |
++------+-----------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [(none)]> flush privileges;
+Query OK, 0 rows affected (0.00 sec)
+
+
+
